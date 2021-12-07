@@ -11,7 +11,7 @@ const routes: Routes = [
   { path: '', component:MenuComponent,
     children:[
       {path:'welcome',component:WelcomeComponent},
-      {path:'hardware',component:TicketComponent}
+      {path:'ticket',component:TicketComponent}
     ]
   }
 ];

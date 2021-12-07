@@ -1,23 +1,115 @@
-<h1>Tickets</h1>
-<nz-table #basicTable [nzData]="listOfData">
+<button nz-button nzType="primary" (click)="open()">Ingresar un Nuevo Registro</button>
+
+<nz-table #basicTable [nzData]="listOfTicket">
     <thead>
       <tr>
-        <th>Name</th>
-        <th>Age</th>
-        <th>Address</th>
-        <th>Action</th>
+        <th>Evento Id</th>
+        <th>Fecha</th>
+        <th>Hora</th>
+        <th>Duracion</th>
+        <th>Precio</th>
+        <th>Silla</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let data of basicTable.data">
-        <td>{{ data.name }}</td>
-        <td>{{ data.age }}</td>
-        <td>{{ data.address }}</td>
+        <td>{{ data.eventoId }}</td>
+        <td>{{ data.fecha }}</td>
+        <td>{{ data.hora }}</td>
+        <td>{{ data.duracion }}</td>
+        <td>{{ data.precio }}</td>
+        <td>{{ data.silla }}</td>
         <td>
-          <a>Action 一 {{ data.name }}</a>
-          <nz-divider nzType="vertical"></nz-divider>
-          <a>Delete</a>
+            <a (click)="modificar(data)">Editar</a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <a nz-popconfirm nzPopconfirmTitle="Estas seguro de borrar el registro?" [nzIcon]="iconTpl" (nzOnConfirm)="delete(data.id)" (nzOnCancel)="cancel()" nzCancelText="No" nzOkText="Si">
+              Eliminar
+            </a>
         </td>
       </tr>
     </tbody>
   </nz-table>
+
+  
+<!--TEMPLATE-->
+<ng-template #iconTpl>
+  <i nz-icon nzType="question-circle-o" style="color: red;"></i>
+</ng-template>
+
+
+
+<!--Drawer-->
+<nz-drawer
+      [nzBodyStyle]="{ overflow: 'auto' }"
+      [nzMaskClosable]="false"
+      [nzWidth]="720"
+      [nzVisible]="visible"
+      nzTitle="Formulario Tickets"
+      [nzFooter]="footerTpl"
+      (nzOnClose)="close()"
+    > 
+    <form nz-form *nzDrawerContent (submit)="submitForm()" [formGroup]="form">
+        <div nz-row [nzGutter]="8">
+          <div nz-col nzSpan="12">
+            <nz-form-item>
+              <nz-form-label>eventoId</nz-form-label>
+              <nz-form-control>
+                <input formControlName="eventoId" nz-input placeholder="Ingrese numero del evento" />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="12">
+            <nz-form-item>
+              <nz-form-label>fecha</nz-form-label>
+              <nz-form-control>
+                <input formControlName="fecha" nz-input placeholder="Ingrese la fecha" />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+        <div nz-row [nzGutter]="8">
+          <div nz-col nzSpan="12">
+            <nz-form-item>
+              <nz-form-label>hora</nz-form-label>
+              <nz-form-control>
+                <input formControlName="hora" nz-input placeholder="Ingrese la hora" />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="12">
+            <nz-form-item>
+              <nz-form-label>duracion</nz-form-label>
+              <nz-form-control>
+                <nz-input-number formControlName="duracion" [nzMin]="1"  [nzStep]="1" placeholder="Ingrese el duracion"></nz-input-number>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+        <div nz-row [nzGutter]="8">
+          <div nz-col nzSpan="12">
+            <nz-form-item>
+              <nz-form-label>precio</nz-form-label>
+              <nz-form-control>
+                <input formControlName="precio" nz-input  placeholder="Ingrese el precio" />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="12">
+            <nz-form-item>
+              <nz-form-label>silla</nz-form-label>
+              <nz-form-control>
+                <nz-input-number formControlName="silla" [nzMin]="1"  [nzStep]="1" placeholder="Ingrese el numero de silla" ></nz-input-number>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </form>
+    
+
+      <ng-template #footerTpl>
+        <div style="float: right">
+          <button nz-button style="margin-right: 8px;" (click)="close()">Cancelar</button>
+          <button nz-button nzType="primary" (click)="guardar()">Guardar</button>
+        </div>
+      </ng-template>
+    </nz-drawer>
