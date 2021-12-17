@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  urlBackend:'https://appclaseticket.herokuapp.com'
+ // urlBackend:'https://appclaseticket.herokuapp.com'
 };
 
 /*
